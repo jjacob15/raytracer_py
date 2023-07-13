@@ -1,8 +1,6 @@
 import numpy as np
-# from raytracer import EPSILON
+from raytracer import EPSILON
 
 def run():
-    # print(EPSILON)
-    print(np.arange(10,100))
-
-run()
+    print(EPSILON)
+    return np.arange(10,100)
