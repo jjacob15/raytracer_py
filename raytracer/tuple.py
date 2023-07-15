@@ -22,6 +22,10 @@ class Tuple:
     z: NUMERIC_T
     w: TupleType
 
+    def __post_init__(self) -> None:
+        if self.w not in [0, 1]:
+            raise ValueError(f"the w is invalid {self.w}")
+
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Tuple):
             return False
@@ -110,7 +114,14 @@ class Tuple:
             raise ValueError("Normal must be a vector.")
 
         return self - (normal * 2 * dot(self, normal))
-    
+
+    def as_array(self) -> np.ndarray:
+        return np.array((self.x, self.y, self.z, self.w))
+
+    @staticmethod
+    def from_array(array: np.ndarray) -> Tuple:
+        return Tuple(x=array[0], y=array[1], z=array[2], w=array[3])
+
 
 def point(x: NUMERIC_T, y: NUMERIC_T, z: NUMERIC_T) -> Tuple:
     return Tuple(x=x, y=y, z=z, w=TupleType.POINT)

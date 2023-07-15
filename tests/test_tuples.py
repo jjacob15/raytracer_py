@@ -1,5 +1,6 @@
 from raytracer.tuple import Tuple, TupleType, point, vector, dot, cross
 import math
+import pytest
 
 
 def test_is_point():
@@ -110,3 +111,8 @@ def test_reflect_vector_45():
     v1 = vector(1, -1, 0)
     v2 = vector(0, 1, 0)
     assert v1 == v1.reflect(v2)
+
+
+def test_invalid_tuple():
+    with pytest.raises(ValueError):
+        _ = Tuple(0, 0, 0, 8)
