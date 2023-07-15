@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-import typing as t
+import numpy as np
 from dataclasses import dataclass
 from raytracer import NUMERIC_T, EPSILON
 from enum import IntEnum
@@ -110,7 +110,7 @@ class Tuple:
             raise ValueError("Normal must be a vector.")
 
         return self - (normal * 2 * dot(self, normal))
-
+    
 
 def point(x: NUMERIC_T, y: NUMERIC_T, z: NUMERIC_T) -> Tuple:
     return Tuple(x=x, y=y, z=z, w=TupleType.POINT)

@@ -104,3 +104,9 @@ def test_cross_product():
     v2 = vector(2, 3, 4)
     assert cross(v1, v2) == vector(-1, 2, -1)
     assert cross(v2, v1) == vector(1, -2, 1)
+
+
+def test_reflect_vector_45():
+    v1 = vector(1, -1, 0)
+    v2 = vector(0, 1, 0)
+    assert v1 == v1.reflect(v2)
