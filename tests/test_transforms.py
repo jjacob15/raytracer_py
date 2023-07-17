@@ -1,6 +1,6 @@
-from raytracer.transforms import translation, scaling, rotate_x, rotate_y, rotate_z, rotate,shearing
+from raytracer.transforms import translation, scaling, rotate_x, rotate_y, rotate_z, rotate, shearing,view_transform
 from raytracer.matrix import Matrix
-from raytracer.tuple import point, vector,Tuple
+from raytracer.tuple import point, vector, Tuple
 import numpy as np
 import math
 import pytest
@@ -128,8 +128,9 @@ def test_rotate() -> None:
     full_quarter = rotate(x=QUART, y=QUART)
     assert full_quarter * p == truth_full_quarter
 
+
 SHEARING_TEST_CASES = (
-      ((0, 0, 0, 0, 0, 0), point(2, 3, 4)),
+    ((0, 0, 0, 0, 0, 0), point(2, 3, 4)),
     ((1, 0, 0, 0, 0, 0), point(5, 3, 4)),
     ((0, 1, 0, 0, 0, 0), point(6, 3, 4)),
     ((0, 0, 1, 0, 0, 0), point(2, 5, 4)),
@@ -138,9 +139,52 @@ SHEARING_TEST_CASES = (
     ((0, 0, 0, 0, 0, 1), point(2, 3, 7)),
 )
 
-@pytest.mark.parametrize(("shear_args","truth"),SHEARING_TEST_CASES)
-def test_shearing(shear_args:tuple[int,int,int,int,int,int],truth: Tuple) -> None:
+
+@pytest.mark.parametrize(("shear_args", "truth"), SHEARING_TEST_CASES)
+def test_shearing(shear_args: tuple[int, int, int, int, int, int], truth: Tuple) -> None:
     p = point(2, 3, 4)
 
     shear = shearing(*shear_args)
     assert shear * p == truth
+
+
+
+
+def test_transform_chaining() -> None:
+    p = point(1, 0, 1)
+    truth_p = point(15, 0, 7)
+
+    # Non-chained progression
+    A = rotate_x(QUART)
+    B = scaling(5, 5, 5)
+    C = translation(10, 5, 7)
+
+    step_p = A * p
+    step_p = B * step_p
+    step_p = C * step_p
+    assert step_p == truth_p
+
+    # Chained transformations
+    chained = C * B * A
+    assert chained * p == truth_p
+
+
+ARBITRARY_TRANSFORM_TRUTH = np.array(
+    [
+        [-0.50709, 0.50709, 0.67612, -2.36643],
+        [0.76772, 0.60609, 0.12122, -2.82843],
+        [-0.35857, 0.59761, -0.71714, 0],
+        [0, 0, 0, 1],
+    ]
+)
+VIEW_TRANSFORM_CASES = (
+    (point(0, 0, 0), point(0, 0, -1), vector(0, 1, 0), Matrix.identity()),  # Default orientation
+    (point(0, 0, 0), point(0, 0, 1), vector(0, 1, 0), scaling(-1, 1, -1)),  # Turn around on z-axis
+    (point(0, 0, 8), point(0, 0, 0), vector(0, 1, 0), translation(0, 0, -8)),  # Shift along z-axis
+    (point(1, 3, 2), point(4, -2, 8), vector(1, 1, 0), Matrix(ARBITRARY_TRANSFORM_TRUTH)),
+)
+
+
+@pytest.mark.parametrize(("from_p", "to_p", "up_v", "truth_trans"), VIEW_TRANSFORM_CASES)
+def test_view_transform(from_p: Tuple, to_p: Tuple, up_v: Tuple, truth_trans: Matrix) -> None:
+    assert view_transform(from_p, to_p, up_v) == truth_trans

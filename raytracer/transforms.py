@@ -1,5 +1,6 @@
 from raytracer import NUMERIC_T
 from raytracer.matrix import Matrix
+from raytracer.tuple import Tuple,cross
 import numpy as np
 from math import sin, cos
 
@@ -10,6 +11,7 @@ def translation(x: NUMERIC_T, y: NUMERIC_T, z: NUMERIC_T) -> Matrix:
     identity[0:3, 3] = [x, y, z]
     return Matrix(matrix=identity)
 
+
 def scaling(x: NUMERIC_T, y: NUMERIC_T, z: NUMERIC_T) -> Matrix:
     """scales a point up or down in a 3D space"""
     identity = np.identity(4)
@@ -17,6 +19,7 @@ def scaling(x: NUMERIC_T, y: NUMERIC_T, z: NUMERIC_T) -> Matrix:
     identity[1, 1] = y
     identity[2, 2] = z
     return Matrix(matrix=identity)
+
 
 def rotate_x(a: NUMERIC_T) -> Matrix:
     """means rotating around the x axis by moving from the y axis towards the z axis"""
@@ -65,3 +68,17 @@ def shearing(
     )
 
     return Matrix(matrix)
+
+
+def view_transform(from_p:Tuple,to_p:Tuple, up_v: Tuple)-> Matrix:
+    forward = (to_p - from_p).normalize()
+    up_norm = up_v.normalize()
+    left = cross(forward, up_norm)
+    true_up = cross(left, forward)
+
+    orientation = np.identity(4)
+    orientation[0, 0:3] = [left.x,left.y,left.z]
+    orientation[1, 0:3] = [true_up.x,true_up.y,true_up.z]
+    orientation[2, 0:3] = [-forward.x,-forward.y,-forward.z]
+
+    return Matrix(orientation) * translation(-from_p.x,-from_p.y,-from_p.z)    

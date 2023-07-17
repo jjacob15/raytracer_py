@@ -5,17 +5,29 @@ import numpy as np
 import typing as t
 
 
-@dataclass
+@dataclass(slots=True)
 class Matrix:
     """
-    Matrix is build using ndarrays
+    Matrix is build using ndarrays and supports multiplication.
     """
 
     matrix: np.ndarray
 
+
     def __mul__(self, other: object) -> Matrix | Tuple:
         if isinstance(other, Tuple):
             dotprod = self.matrix.dot(other.as_array())
+
+            return Tuple.from_array(dotprod)
+        elif isinstance(other, Matrix):
+            return Matrix(self.matrix.dot(other.matrix))
+
+        return NotImplemented
+
+    def __rmul__(self, other: object) -> Matrix | Tuple:
+        if isinstance(other, Tuple):
+            dotprod = self.matrix.dot(other.as_array())
+
             return Tuple.from_array(dotprod)
         elif isinstance(other, Matrix):
             return Matrix(self.matrix.dot(other.matrix))

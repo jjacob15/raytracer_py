@@ -93,12 +93,12 @@ class Tuple:
                          w=self.w)
 
     def magnitude(self) -> float:
-        #computes the pythagoras of xy and z, which is the distance of the vector
+        # computes the pythagoras of xy and z, which is the distance of the vector
         return math.sqrt(self.x**2 + self.y**2 + self.z**2)
 
     def normalize(self) -> Tuple:
         """Normalize into a unit Vector.
-        Normalizing allows you to start at a unit vector that is anchored to the relative scale 
+        Normalizing allows you to start at a unit vector that is anchored to the relative scale
         """
         if self.w != TupleType.VECTOR:
             raise TypeError("Cannot normalize a non-Vector.")
