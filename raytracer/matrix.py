@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from raytracer.tuple import Tuple
 import numpy as np
+import typing as t
 
 
 @dataclass

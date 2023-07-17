@@ -16,6 +16,9 @@ class TupleType(IntEnum):
 class Tuple:
     """
     frozen -> makes it readonly class
+    This is the ray tracers x,y and z. Also has w that indicates its its a point or a vector.
+
+    Supports addition, multiplication, negation and division.
     """
     x: NUMERIC_T
     y: NUMERIC_T
@@ -90,10 +93,13 @@ class Tuple:
                          w=self.w)
 
     def magnitude(self) -> float:
+        #computes the pythagoras of xy and z, which is the distance of the vector
         return math.sqrt(self.x**2 + self.y**2 + self.z**2)
 
     def normalize(self) -> Tuple:
-        """Normalize into a unit Vector."""
+        """Normalize into a unit Vector.
+        Normalizing allows you to start at a unit vector that is anchored to the relative scale 
+        """
         if self.w != TupleType.VECTOR:
             raise TypeError("Cannot normalize a non-Vector.")
 
@@ -132,6 +138,7 @@ def vector(x: NUMERIC_T, y: NUMERIC_T, z: NUMERIC_T) -> Tuple:
 
 
 def dot(left: Tuple, right: Tuple) -> NUMERIC_T:
+    """gets you a scalar value which is the angle between the two vectors"""
     if not (left.w == TupleType.VECTOR and right.w == TupleType.VECTOR):
         raise ValueError(f"Both operands must be vectors. Received: {left.w} and {right.w}.")
 
@@ -140,9 +147,7 @@ def dot(left: Tuple, right: Tuple) -> NUMERIC_T:
 
 def cross(left: Tuple, right: Tuple) -> Tuple:
     """
-    Calculate the cross product of two Vectors.
-
-    See: https://en.wikipedia.org/wiki/Cross_product
+    Calculate the cross product of two Vectors, which is the vector perpendicular to these two vectors.
     """
     if not (left.w == TupleType.VECTOR and right.w == TupleType.VECTOR):
         raise ValueError(f"Both operands must be vectors. Received: {left.w} and {right.w}.")
