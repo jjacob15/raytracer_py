@@ -2,7 +2,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from raytracer.tuple import Tuple
 import numpy as np
-import typing as t
 
 
 @dataclass(slots=True)
@@ -12,7 +11,6 @@ class Matrix:
     """
 
     matrix: np.ndarray
-
 
     def __mul__(self, other: object) -> Matrix | Tuple:
         if isinstance(other, Tuple):

@@ -1,6 +1,6 @@
 from raytracer import NUMERIC_T
 from raytracer.matrix import Matrix
-from raytracer.tuple import Tuple,cross
+from raytracer.tuple import Tuple, cross
 import numpy as np
 from math import sin, cos
 
@@ -70,15 +70,15 @@ def shearing(
     return Matrix(matrix)
 
 
-def view_transform(from_p:Tuple,to_p:Tuple, up_v: Tuple)-> Matrix:
+def view_transform(from_p: Tuple, to_p: Tuple, up_v: Tuple) -> Matrix:
     forward = (to_p - from_p).normalize()
     up_norm = up_v.normalize()
     left = cross(forward, up_norm)
     true_up = cross(left, forward)
 
     orientation = np.identity(4)
-    orientation[0, 0:3] = [left.x,left.y,left.z]
-    orientation[1, 0:3] = [true_up.x,true_up.y,true_up.z]
-    orientation[2, 0:3] = [-forward.x,-forward.y,-forward.z]
+    orientation[0, 0:3] = [left.x, left.y, left.z]
+    orientation[1, 0:3] = [true_up.x, true_up.y, true_up.z]
+    orientation[2, 0:3] = [-forward.x, -forward.y, -forward.z]
 
-    return Matrix(orientation) * translation(-from_p.x,-from_p.y,-from_p.z)    
+    return Matrix(orientation) * translation(-from_p.x, -from_p.y, -from_p.z)

@@ -32,6 +32,7 @@ def test_ray_transformation(t_matrix: Matrix, truth_ray: Ray) -> None:
     r = Ray(point(1, 2, 3), vector(0, 1, 0))
     assert r.transform(t_matrix) == truth_ray
 
+
 def test_ray_nonpoint_origin_raises() -> None:
     v = vector(4, 5, 6)
 

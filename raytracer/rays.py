@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from raytracer import NUMERIC_T
-from raytracer.tuple import Tuple,TupleType
+from raytracer.tuple import Tuple, TupleType
 from raytracer.matrix import Matrix
 
 
@@ -10,7 +10,7 @@ class Ray:
     origin: Tuple
     direction: Tuple
 
-    def __post_init__(self)->None:
+    def __post_init__(self) -> None:
         if self.origin.w != TupleType.POINT:
             raise ValueError("Ray origin must be a point")
 

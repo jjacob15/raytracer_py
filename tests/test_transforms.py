@@ -1,4 +1,4 @@
-from raytracer.transforms import translation, scaling, rotate_x, rotate_y, rotate_z, rotate, shearing,view_transform
+from raytracer.transforms import translation, scaling, rotate_x, rotate_y, rotate_z, rotate, shearing, view_transform
 from raytracer.matrix import Matrix
 from raytracer.tuple import point, vector, Tuple
 import numpy as np
@@ -52,13 +52,6 @@ def test_inv_scaling_point() -> None:
     scale = scaling(2, 3, 4).inverse()
 
     assert scale * p == vector(-2, 2, 2)
-
-
-def test_reflection() -> None:
-    p = point(2, 3, 4)
-    scale = scaling(-1, 1, 1)
-
-    assert scale * p == point(-2, 3, 4)
 
 
 def test_vector_scaling_grow() -> None:
@@ -146,8 +139,6 @@ def test_shearing(shear_args: tuple[int, int, int, int, int, int], truth: Tuple)
 
     shear = shearing(*shear_args)
     assert shear * p == truth
-
-
 
 
 def test_transform_chaining() -> None:

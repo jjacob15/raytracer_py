@@ -35,7 +35,7 @@ class Tuple:
         return all(
             (self.w == other.w,
              math.isclose(self.x, other.x, abs_tol=EPSILON),
-             math.isclose(self.x, other.x, abs_tol=EPSILON),
+             math.isclose(self.y, other.y, abs_tol=EPSILON),
              math.isclose(self.z, other.z, abs_tol=EPSILON))
         )
 
