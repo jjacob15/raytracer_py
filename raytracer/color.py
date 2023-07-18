@@ -57,8 +57,10 @@ class Color:
              math.isclose(self.b, other.b, abs_tol=EPSILON)))
 
 
-BLACK = Color(0, 0, 0)
+def black():
+    return Color(0, 0, 0)
 BLUE = Color(0.537, 0.831, 0.914)
 PURPLE = Color(0.373, 0.404, 0.550)
 RED = Color(0.941, 0.322, 0.388)
-WHITE = Color(1, 1, 1)
+def white():
+    return Color(1, 1, 1)

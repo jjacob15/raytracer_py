@@ -46,7 +46,6 @@ def test_ppm_write(tmp_path: Path) -> None:
     c.write_pixel(2, 1, Color(0, 0.5, 0))
     c.write_pixel(4, 2, Color(-0.5, 0, 1))
 
-    print(tmp_path)
     out_img = tmp_path / "my_img.ppm"
     c.to_file(out_img)
 

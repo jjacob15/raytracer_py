@@ -5,6 +5,7 @@ import numpy as np
 from dataclasses import dataclass
 from raytracer import NUMERIC_T, EPSILON
 from enum import IntEnum
+import typing as t
 
 
 class TupleType(IntEnum):
@@ -120,6 +121,11 @@ class Tuple:
             raise ValueError("Normal must be a vector.")
 
         return self - (normal * 2 * dot(self, normal))
+
+    def __iter__(self) -> t.Generator[NUMERIC_T, None, None]:
+        yield self.x
+        yield self.y
+        yield self.z
 
     def as_array(self) -> np.ndarray:
         return np.array((self.x, self.y, self.z, self.w))
