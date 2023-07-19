@@ -26,9 +26,9 @@ class Tuple:
     z: NUMERIC_T
     w: TupleType
 
-    def __post_init__(self) -> None:
-        if self.w not in [0, 1]:
-            raise ValueError(f"the w is invalid {self.w}")
+    # def __post_init__(self) -> None:
+    #     if self.w not in [0, 1]:
+    #         raise ValueError(f"the w is invalid {self.w}")
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Tuple):

@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
+from raytracer import EPSILON
 from raytracer.materials import Material
 from raytracer.intersections import Intersections, Intersection
 from raytracer.matrix import Matrix
@@ -13,7 +14,10 @@ from raytracer.tuple import Tuple, TupleType, vector, point, dot
 @dataclass(slots=True, eq=False)
 class Shape:
     """child classes must define `_local_intersect` and `_local_normal_at` to calculate their
-    respective local values"""
+    respective local values
+    Deliberatly setting eq to False, so two instances will equal to true.
+    Ensure for testing, you have a partial class with a common shape
+    """
     transform: Matrix = field(default_factory=Matrix.identity)
     material: Material = Material()
     parent: Group | None = None
@@ -122,3 +126,20 @@ class Sphere(Shape):
 
     def _local_normal_at(self, local_point: Tuple, hit: Intersection) -> Tuple:
         return local_point - point(0, 0, 0)
+
+
+@dataclass(slots=True,eq=False)
+class Plane(Shape):
+    
+    def _local_intersect(self, transformed_ray: Ray) -> Intersections:
+        if abs(transformed_ray.direction.y) < EPSILON:
+            return
+        t = - transformed_ray.origin.y / transformed_ray.y
+
+        return Intersections([Intersection(t,self)])
+    
+    def _local_normal_at(self, local_point: Tuple, hit: Intersection) -> Tuple:
+        return vector(0,1,0)
+
+
+        

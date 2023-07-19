@@ -39,7 +39,7 @@ class Intersections(UserList):
         return None
 
 
-@dataclass
+@dataclass(slots=True)
 class IntersectionComp:
     t: NUMERIC_T
     obj: Shape
@@ -67,10 +67,11 @@ def _calc_refractive_indices(inter: Intersection, all_inters: Intersections) -> 
             else:
                 n1 = containers[-1].material.refractive_index
 
-        if any(c.obj == i.obj for c in containers):
+        if i.obj in containers:
             containers.remove(i.obj)
         else:
             containers.append(i.obj)
+        
         if i == inter:
             if not containers:
                 n2: NUMERIC_T = 1.0
@@ -91,7 +92,8 @@ def prepare_computation(inter: Intersection, ray: Ray, all_inters: Intersections
 
     point = ray.position(inter.t)
     eye_v = -ray.direction
-    normal = inter.ob.noraml_at(point, inter)
+
+    normal = inter.obj.normal_at(point, inter)
     if dot(normal, eye_v) < 0:
         inside = True
         normal = -normal

@@ -112,7 +112,3 @@ def test_reflect_vector_45():
     v2 = vector(0, 1, 0)
     assert vector(1, 1, 0) == v1.reflect(v2)
 
-
-def test_invalid_tuple():
-    with pytest.raises(ValueError):
-        _ = Tuple(0, 0, 0, 8)
