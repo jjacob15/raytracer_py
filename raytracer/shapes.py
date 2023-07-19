@@ -70,6 +70,7 @@ class Shape:
         return new_norm
 
 
+
 @dataclass(slots=True, eq=False)
 class Group(Shape):
     """
@@ -99,7 +100,6 @@ class Group(Shape):
         self.children.add(other)
         other.parent = self
 
-
 @dataclass(slots=True, eq=False)
 class Sphere(Shape):
     """
@@ -113,6 +113,7 @@ class Sphere(Shape):
         b = 2 * dot(transformed_ray.direction, sphere_to_ray)
         c = dot(sphere_to_ray, sphere_to_ray) - 1
         discriminant = b**2 - (4 * a * c)
+
 
         if discriminant < 0:
             intersections = []
@@ -128,15 +129,18 @@ class Sphere(Shape):
         return local_point - point(0, 0, 0)
 
 
-@dataclass(slots=True, eq=False)
+@dataclass(slots=True,eq=False)
 class Plane(Shape):
-
+    
     def _local_intersect(self, transformed_ray: Ray) -> Intersections:
         if abs(transformed_ray.direction.y) < EPSILON:
             return
         t = - transformed_ray.origin.y / transformed_ray.y
 
-        return Intersections([Intersection(t, self)])
-
+        return Intersections([Intersection(t,self)])
+    
     def _local_normal_at(self, local_point: Tuple, hit: Intersection) -> Tuple:
-        return vector(0, 1, 0)
+        return vector(0,1,0)
+
+
+        
