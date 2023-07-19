@@ -1,12 +1,12 @@
 import pytest
-from raytracer.intersections import Intersection,Intersections,IntersectionComp,prepare_computation,schlick
+from raytracer.intersections import Intersection, Intersections, IntersectionComp, prepare_computation, schlick
 from raytracer import EPSILON
 import math
 from raytracer.materials import Material
-from raytracer.transforms import translation,scaling
-from raytracer.shapes import Sphere,Plane
+from raytracer.transforms import translation, scaling
+from raytracer.shapes import Sphere, Plane
 from raytracer.rays import Ray
-from raytracer.tuple import point,vector
+from raytracer.tuple import point, vector
 
 
 def test_intersections_container() -> None:
@@ -26,19 +26,25 @@ def test_intersections_sorted() -> None:
 
 
 BASE_SPHERE = Sphere()
-def init_intersection(t:int):
-    return Intersection(t=t,obj=BASE_SPHERE)
+
+
+def init_intersection(t: int):
+    return Intersection(t=t, obj=BASE_SPHERE)
+
 
 HIT_TEST_CASES = (
     (Intersections([init_intersection(1), init_intersection(2)]), init_intersection(1)),
     (Intersections([init_intersection(-1), init_intersection(1)]), init_intersection(1)),
     (Intersections([init_intersection(-2), init_intersection(-1)]), None),
-    (Intersections([init_intersection(5), init_intersection(7), init_intersection(-3), init_intersection(2)]), init_intersection(2)),
+    (Intersections([init_intersection(5), init_intersection(7),
+     init_intersection(-3), init_intersection(2)]), init_intersection(2)),
 )
+
 
 @pytest.mark.parametrize(("intersections", "truth_hit"), HIT_TEST_CASES)
 def test_hit(intersections: Intersections, truth_hit: Intersection) -> None:
     assert intersections.hit() == truth_hit
+
 
 COMPUTATIONS_CASES = (
     (

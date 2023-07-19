@@ -3,7 +3,7 @@ from __future__ import annotations
 import math
 import typing as t
 from collections import UserList
-from dataclasses import dataclass,field
+from dataclasses import dataclass, field
 
 from raytracer import NUMERIC_T, EPSILON
 from raytracer.rays import Ray
@@ -28,7 +28,7 @@ class Intersections(UserList):
         self.sort()
 
     def sort(self):
-        self.data.sort(key = lambda x: x.t)
+        self.data.sort(key=lambda x: x.t)
 
     def hit(self) -> Intersection | None:
         """loweset non negative intersection"""
@@ -71,7 +71,7 @@ def _calc_refractive_indices(inter: Intersection, all_inters: Intersections) -> 
             containers.remove(i.obj)
         else:
             containers.append(i.obj)
-        
+
         if i == inter:
             if not containers:
                 n2: NUMERIC_T = 1.0

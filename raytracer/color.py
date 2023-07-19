@@ -5,7 +5,7 @@ import math
 import typing as t
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class Color:
     r: NUMERIC_T
     g: NUMERIC_T
@@ -39,7 +39,7 @@ class Color:
                 g=self.g * other.g,
                 b=self.b * other.b)
 
-        elif isinstance(other, float):
+        elif isinstance(other, float) or isinstance(other, int):
             return Color(
                 r=self.r * other,
                 g=self.g * other,
@@ -57,10 +57,8 @@ class Color:
              math.isclose(self.b, other.b, abs_tol=EPSILON)))
 
 
-def black():
-    return Color(0, 0, 0)
+BLACK = Color(0, 0, 0)
 BLUE = Color(0.537, 0.831, 0.914)
 PURPLE = Color(0.373, 0.404, 0.550)
 RED = Color(0.941, 0.322, 0.388)
-def white():
-    return Color(1, 1, 1)
+WHITE = Color(1, 1, 1)

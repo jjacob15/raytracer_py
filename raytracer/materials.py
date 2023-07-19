@@ -1,12 +1,12 @@
-from dataclasses import dataclass,field
-from raytracer.color import Color,white
+from dataclasses import dataclass, field
+from raytracer.color import Color, WHITE
 from raytracer.patterns import Pattern
 from raytracer import NUMERIC_T
 
 
 @dataclass(slots=True, frozen=True)
 class Material:
-    color: Color = field(default_factory=white)
+    color: Color = WHITE
     pattern: Pattern | None = None
     ambient: NUMERIC_T = 0.1
     diffuse: NUMERIC_T = 0.9

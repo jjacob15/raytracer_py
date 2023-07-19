@@ -111,4 +111,3 @@ def test_reflect_vector_45():
     v1 = vector(1, -1, 0)
     v2 = vector(0, 1, 0)
     assert vector(1, 1, 0) == v1.reflect(v2)
-
