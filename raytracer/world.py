@@ -73,7 +73,7 @@ class World:
     def is_shadowed(self, pt: Tuple) -> bool:
         """Determine if the query point is shadowed by a world object."""
         pt_v = self.light.position - pt
-        pt_dist = abs(pt_v)
+        pt_dist = pt_v.magnitude()
         pt_dir = pt_v.normalize()
         r = Ray(pt, pt_dir)
 

@@ -4,6 +4,7 @@ import math
 import typing as t
 from collections import UserList
 from dataclasses import dataclass, field
+from functools import cached_property
 
 from raytracer import NUMERIC_T, EPSILON
 from raytracer.rays import Ray
@@ -24,12 +25,13 @@ class Intersection:
 class Intersections(UserList):
 
     def __init__(self, data: t.Generator[Intersection]) -> None:
-        self.data = list(data)
+        self.data:list[Intersection] = list(data)
         self.sort()
 
-    def sort(self):
-        self.data.sort(key=lambda x: x.t)
+    def sort(self,reverse:bool = False):
+        self.data.sort(key=lambda x: x.t,reverse=reverse)
 
+    @cached_property
     def hit(self) -> Intersection | None:
         """loweset non negative intersection"""
         for intersect in self.data:

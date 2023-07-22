@@ -43,7 +43,7 @@ HIT_TEST_CASES = (
 
 @pytest.mark.parametrize(("intersections", "truth_hit"), HIT_TEST_CASES)
 def test_hit(intersections: Intersections, truth_hit: Intersection) -> None:
-    assert intersections.hit() == truth_hit
+    assert intersections.hit == truth_hit
 
 
 COMPUTATIONS_CASES = (
